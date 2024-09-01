@@ -96,12 +96,12 @@ def generate_conclusion(sentiments, nombre, apellido, score):
     return f"{nombre} {apellido}: {eligibility}"
 
 def generate_conclusion_with_openai(conversation):
-    """Generate a conclusion using OpenAI based on the full conversation data."""
+    """Generate a conclusion using OpenAI based on the full conversation data in Spanish."""
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are an assistant helping to assess eligibility for a financial plan."},
-            {"role": "user", "content": f"Here is the conversation data: {conversation}. Please provide an eligibility conclusion."}
+            {"role": "system", "content": "Eres un asistente que ayuda a evaluar la elegibilidad para un plan financiero. Responde en español."},
+            {"role": "user", "content": f"Aquí están los datos de la conversación: {conversation}. Por favor, proporciona una conclusión sobre la elegibilidad en español."}
         ]
     )
     conclusion = response['choices'][0]['message']['content']
@@ -240,8 +240,8 @@ def main():
         # Calculate score based on form data
         score = calculate_score(form_data)
 
-        # Generate conclusion using OpenAI
-        conclusion = generate_conclusion_with_openai(conversation)
+        # Generate conclusion using OpenAI in Spanish
+    conclusion = generate_conclusion_with_openai(conversation)
 
     # Prepare the data to send
         data_to_send = {
