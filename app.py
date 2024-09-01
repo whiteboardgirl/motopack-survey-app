@@ -26,7 +26,53 @@ def analyze_sentiment(text):
     sentiment_analyzer = SentimentIntensityAnalyzer()
     return sentiment_analyzer.polarity_scores(str(translated_text))
 
-def generate_conclusion(sentiments, nombre, apellido):
+
+def calculate_score(form_data):
+    """Calculate a score based on the applicant's responses."""
+    score = 0
+
+    # Example scoring logic - adjust based on your needs
+    if form_data['licencia_conduccion'] == 'Sí':
+        score += 10
+
+    if form_data['prestamos_actuales'] == 'No':
+        score += 15
+    elif form_data['prestamos_actuales'] == 'Sí':
+        score -= 10
+
+    if form_data['codeudor'] == 'Sí':
+        score += 10
+    elif form_data['codeudor'] == 'No':
+        score -= 5
+
+    if form_data['ingresos_mensuales'] >= 1000000:  # Example threshold
+        score += 20
+    elif form_data['ingresos_mensuales'] < 500000:
+        score -= 15
+
+    # Add more conditions based on your form fields
+    # ...
+
+    return score
+
+def generate_conclusion(sentiments, nombre, apellido, score):
+    positive = sum(sent['pos'] for sent in sentiments)
+    negative = sum(sent['neg'] for sent in sentiments)
+
+    if score < 0:
+        eligibility = "Based on your responses, there may be some concerns regarding eligibility for financial assistance."
+    else:
+        if positive > negative:
+            sentiment_conclusion = "Overall, the responses are positive, indicating a generally optimistic outlook."
+        elif negative > positive:
+            sentiment_conclusion = "Overall, the responses are negative, indicating some concerns or difficulties."
+        else:
+            sentiment_conclusion = "The responses are neutral, suggesting a balanced perspective."
+
+        eligibility = f"{sentiment_conclusion} Your eligibility score is {score}."
+
+    return f"{nombre} {apellido}: {eligibility}"
+sentiments, nombre, apellido):
     positive = sum(sent['pos'] for sent in sentiments)
     negative = sum(sent['neg'] for sent in sentiments)
     
