@@ -73,9 +73,9 @@ def main():
         "PPT", 
         "Cédula de Ciudadania Colombiana" ])
     numero_documento = st.text_input("Número de Documento de Identidad *")
-    sexo = st.selectbox("Sexo", ["Masculino", "Femenino", "Otro"])
+    sexo = st.selectbox("Sexo", ["Masculino", "Femenino"])
     celular = st.text_input("Celular (con Whatsapp) *")
-    ciudad_residencia = st.text_input("Ciudad de Residencia *")
+    ciudad_residencia = st.selectbox("Ciudad de Residencia *", ["Armenia", "Barranquilla", "Bogotá", "Bucaramanga", "Cali", "Cartagena", "Chia, Cundinamarca", "Cajica", "Cucuta", "Envigado, Antioquia", "Facatativa", "Floridablanca", "Funza", "Fusagasuga", "Ibagué", "Itagui", "Jamundi", "Manizales", "Medellín", "Monteria", "Neiva", "Otra ciudad", "Pasto", "Pereira", "Popayan", "Rioacha", "Sabaneta", "Santa Marta", "Soacha", "Suba", "Tunja", "Villavicienco", "Zipaquira" ])
     direccion_residencia = st.text_input("Dirección de Residencia *")
     barrio_residencia = st.text_input("Barrio de Residencia")
     correo_electronico = st.text_input("Correo Electrónico *")
