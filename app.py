@@ -62,8 +62,8 @@ def integrate_llm_sentiment(score, sentiments):
     return score
 
 def generate_conclusion(sentiments, nombre, apellido, score):
-    # Adjust score with sentiment analysis
-    score = integrate_llm_sentiment(score, sentiments)
+    positive = sum(sent['pos'] for sent in sentiments)
+    negative = sum(sent['neg'] for sent in sentiments)
 
     if score < 50:
         eligibility = "Based on your responses, there may be some concerns regarding eligibility for financial assistance."
@@ -78,6 +78,10 @@ def generate_conclusion(sentiments, nombre, apellido, score):
             sentiment_conclusion = "The responses are balanced. Additional information may be needed."
 
         eligibility = f"{sentiment_conclusion} Your eligibility score is {score}."
+
+    # Ensuring eligibility is always defined before the return statement
+    if 'eligibility' not in locals():
+        eligibility = "There was an error processing the eligibility. Please review the inputs."
 
     return f"{nombre} {apellido}: {eligibility}"
 
