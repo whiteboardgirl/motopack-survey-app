@@ -98,10 +98,9 @@ def main():
         return
 
     # LLM conversation questions
-    business_description = st.text_area("¿Puedes contarme un poco sobre tu negocio y cómo comenzaste?")
-    business_experience = st.number_input("¿Cuánto tiempo has estado en tu negocio actual? (en años)", min_value=0, max_value=50)
-    business_type = st.selectbox("¿Cuál es el tipo principal de negocio que manejas?", ["Entregas", "Transporte personal", "Otro"])
-    current_transportation = st.text_input("¿Actualmente utilizas algún medio de transporte para tu negocio? Si es así, ¿cuál?")
+    business_description = st.text_area("¿Puedes contarme un poco sobre tu trabajo y cómo comenzaste?")
+    business_experience = st.selectbox("¿Cuánto tiempo has estado en tu trabajo actual? (en meses)", ["1-3 meses", "3-6 meses", "6-12 meses", "más de 12 meses"])
+    business_type = st.selectbox("¿Cuál es el tipo principal darías a la moto?", ["Entregas", "Transporte personal", "Entregas y Transporte personal"])
 
     financial_management = st.text_area("¿Cómo manejas tus finanzas actualmente?")
     payment_comfort = st.selectbox("¿Qué tan cómodo te sentirías haciendo pagos regulares para la renta de una motocicleta?", ["Muy cómodo", "Algo cómodo", "No muy cómodo", "Incomodo"])
@@ -113,9 +112,9 @@ def main():
     responsibility = st.text_area("¿Cómo te aseguras de cumplir con tus compromisos financieros y laborales?")
     previous_experience = st.text_area("¿Has tenido alguna experiencia previa en la gestión de pagos a plazos o alquiler de equipos?")
 
-    business_goals = st.text_area("¿Cuáles son tus objetivos a corto y largo plazo para tu negocio?")
-    impact_of_motorcycle = st.text_area("¿Cómo crees que una motocicleta podría cambiar las cosas para tu negocio?")
-    future_plans = st.text_area("¿Dónde te ves a ti mismo y a tu negocio en los próximos 2-3 años?")
+    business_goals = st.text_area("¿Cuáles son tus objetivos a corto y largo plazo para tu trabajo?")
+    impact_of_motorcycle = st.text_area("¿Cómo crees que una motocicleta podría cambiar las cosas para tu trabajo?")
+    future_plans = st.text_area("¿Dónde te ves a ti mismo en los próximos 2-3 años?")
 
     expectations = st.text_area("¿Qué esperas obtener del programa de alquiler de motocicletas?")
     concerns = st.text_area("¿Tienes alguna preocupación sobre el proceso de alquiler de una motocicleta?")
@@ -150,7 +149,6 @@ def main():
             "business_description": business_description,
             "business_experience": business_experience,
             "business_type": business_type,
-            "current_transportation": current_transportation,
             "financial_management": financial_management,
             "payment_comfort": payment_comfort,
             "motorcycle_purpose": motorcycle_purpose,
