@@ -26,7 +26,6 @@ def analyze_sentiment(text):
     sentiment_analyzer = SentimentIntensityAnalyzer()
     return sentiment_analyzer.polarity_scores(str(translated_text))
 
-
 def calculate_score(form_data):
     """Calculate a score based on the applicant's responses."""
     score = 0
@@ -49,7 +48,6 @@ def calculate_score(form_data):
     elif form_data['codeudor'] == 'No':
         score -= 25
 
-
     # Add more conditions based on your form fields
     # ...
 
@@ -59,15 +57,15 @@ def generate_conclusion(sentiments, nombre, apellido, score):
     positive = sum(sent['pos'] for sent in sentiments)
     negative = sum(sent['neg'] for sent in sentiments)
 
- # Adjust thresholds or add conditions for more balanced conclusions
+    # Adjust thresholds or add conditions for more balanced conclusions
     if score < 35:
         eligibility = "Based on your responses, there may be some concerns regarding eligibility for financial assistance."
-    elif score >= 35:  # Adjust this threshold as needed
-        sentiment_conclusion = "The responses are generally positive, and the applicant is recommended for the financial plan."
-    else:
-        if positive > negative + 35:  # Add a small buffer to account for minor negatives
-            sentiment_conclusion = "The responses are positive overall. The applicant is likely a good fit for the financial plan."
-        elif negative > positive - 35:
+    elif score >= 100:  # Higher threshold to ensure eligibility
+        sentiment_conclusion = "The responses are generally positive, and you are recommended for the financial plan."
+    else:  # Score is between 35 and 99
+        if positive > negative + 0.1:  # Use a small buffer to compare sentiment
+            sentiment_conclusion = "The responses are positive overall. You are likely a good fit for the financial plan."
+        elif negative > positive + 0.2:
             sentiment_conclusion = "There are concerns based on the responses. Further review may be necessary."
         else:
             sentiment_conclusion = "The responses are balanced. Additional information may be needed."
@@ -75,18 +73,6 @@ def generate_conclusion(sentiments, nombre, apellido, score):
         eligibility = f"{sentiment_conclusion} Your eligibility score is {score}."
 
     return f"{nombre} {apellido}: {eligibility}"
-
-    positive = sum(sent['pos'] for sent in sentiments)
-    negative = sum(sent['neg'] for sent in sentiments)
-    
-    if positive > negative:
-        sentiment_conclusion = "Resultado Positivo: Se recomienda a esta persona para el plan de financiamiento."
-    elif negative > positive:
-        sentiment_conclusion = "Resultado Negativo: No se recomienda a esta persona para el plan de financiamiento."
-    else:
-        sentiment_conclusion = "Resultado Neutro. Se puede continuar el proceso con esta persona para el plan de financimiento."
-    
-    return f"{nombre} {apellido}: {sentiment_conclusion}"
 
 def send_data_to_make(data):
     if not webhook_url:
