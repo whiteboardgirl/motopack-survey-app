@@ -41,9 +41,6 @@ def send_data_to_make(data):
     if not webhook_url:
         st.error("Webhook URL is not set. Please check your environment variables.")
         return
-
-    # Debugging: Print the data to be sent
-    st.write("Data to send:", data)  # This will display the data in the Streamlit app
     
     response = requests.post(webhook_url, json=data)
     
@@ -106,6 +103,9 @@ def main():
 
         # Send data to Make.com
         send_data_to_make(data_to_send)
+
+        # Display a thank you message instead of the data
+        st.success("Gracias por completar el formulario. ¡Tu información ha sido enviada!")
 
 if __name__ == "__main__":
     main()
