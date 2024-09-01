@@ -64,7 +64,14 @@ def main():
     nombre = st.text_input("Nombre(s) *")
     apellido = st.text_input("Apellido(s) *")
     fecha_nacimiento = st.date_input("Fecha de nacimiento *", format="DD/MM/YYYY")
-    tipo_documento = st.selectbox("Tipo de Documento de Identidad *", ["Cédula de Ciudadanía", "Cédula de Extranjería", "Pasaporte"])
+    tipo_documento = st.selectbox("Tipo de Documento de Identidad *", [
+        "Indocumentado", 
+        "Cédula de Ciudadania Venezolana", 
+        "Cédula de Extranjeria", 
+        "Pasaporte Legal Vigente", 
+        "PEP", 
+        "PPT", 
+        "Cédula de Ciudadania Colombiana" ])
     numero_documento = st.text_input("Número de Documento de Identidad *")
     sexo = st.selectbox("Sexo", ["Masculino", "Femenino", "Otro"])
     celular = st.text_input("Celular (con Whatsapp) *")
