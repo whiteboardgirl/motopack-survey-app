@@ -241,9 +241,9 @@ def main():
         score = calculate_score(form_data)
 
         # Generate conclusion using OpenAI in Spanish
-    conclusion = generate_conclusion_with_openai(conversation)
+        conclusion = generate_conclusion_with_openai(conversation)
 
-    # Prepare the data to send
+  # Prepare the data to send
         data_to_send = {
             "form_data": form_data,
             "conclusion": conclusion
