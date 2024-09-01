@@ -217,8 +217,8 @@ def main():
                 sentiments.append(sentiment)
 
         
-score = calculate_score(form_data)
-conclusion = generate_conclusion(sentiments, nombre, apellido, score)
+            score = calculate_score(form_data)
+            conclusion = generate_conclusion(sentiments, nombre, apellido, score)
 
 
         # Prepare the data to send
