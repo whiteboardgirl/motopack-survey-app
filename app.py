@@ -90,7 +90,7 @@ def main():
     codeudor = st.selectbox("¿Tienes un Co-Deudor(a) Colombiano(a)?", ["Sí", "No"])
     rappitendero = st.selectbox("¿Eres un Rappitendero?", ["Sí", "No"])
     ingresos_mensuales = st.selectbox("¿Cuáles son tus ingresos mensuales actuales? *", ["$0 a $500.000", "$500.000 a $1.000.000", "$1.000.000 a $1.500.000", "$1.500.000 a $2.000.000", "Más de $2.000.000"])
-    movilizacion_actual = st.text_area("¿Actualmente cómo te movilizas? *")
+    movilizacion_actual = st.selectbox("¿Actualmente cómo te movilizas? *", ["A pie", "Bicicleta", "Moto propia", "Moto Alquilada", "Ciclomotor"])
     acepto_politica = st.checkbox("Acepto la política de tratamiento de datos de Motopack SAS BIC. * Ver acá: https://www.motopack.co/politica-de-tratamiento-de-datos")
 
     if not acepto_politica:
