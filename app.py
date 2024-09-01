@@ -79,6 +79,10 @@ def generate_conclusion(sentiments, nombre, apellido, score):
 
         eligibility = f"{sentiment_conclusion} Your eligibility score is {score}."
 
+    # Ensuring eligibility is always defined before the return statement
+    if 'eligibility' not in locals():
+        eligibility = "There was an error processing the eligibility. Please review the inputs."
+
     return f"{nombre} {apellido}: {eligibility}"
 
 def send_data_to_make(data):
