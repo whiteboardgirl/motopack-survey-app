@@ -31,11 +31,11 @@ def generate_conclusion(sentiments, nombre, apellido):
     negative = sum(sent['neg'] for sent in sentiments)
     
     if positive > negative:
-        sentiment_conclusion = "Overall, the responses are positive, indicating a generally optimistic outlook."
+        sentiment_conclusion = "Resultado Positivo: Se recomienda a esta persona para el plan de financiamiento."
     elif negative > positive:
-        sentiment_conclusion = "Overall, the responses are negative, indicating some concerns or difficulties."
+        sentiment_conclusion = "Resultado Negativo: No se recomienda a esta persona para el plan de financiamiento."
     else:
-        sentiment_conclusion = "The responses are neutral, suggesting a balanced perspective."
+        sentiment_conclusion = "Resultado Neutro. Se puede continuar el proceso con esta persona para el plan de financimiento."
     
     return f"{nombre} {apellido}: {sentiment_conclusion}"
 
@@ -47,9 +47,9 @@ def send_data_to_make(data):
     response = requests.post(webhook_url, json=data)
     
     if response.status_code == 200:
-        st.success("Data successfully sent to Make.com")
+        st.success("Tu información está siendo procesada. Te contactaremos pronto!")
     else:
-        st.error("Failed to send data to Make.com")
+        st.error("Hubo un problema con tus respuestas por favor intentalo más tarde")
 
 def main():
     st.title("Registro para Adquirir una Moto")
