@@ -103,13 +103,11 @@ def main():
     business_type = st.selectbox("¿Cuál es el tipo principal de negocio que manejas?", ["Entregas", "Transporte personal", "Otro"])
     current_transportation = st.text_input("¿Actualmente utilizas algún medio de transporte para tu negocio? Si es así, ¿cuál?")
 
-    income_level = st.number_input("¿Cuál es tu ingreso mensual promedio?", min_value=0)
     financial_management = st.text_area("¿Cómo manejas tus finanzas actualmente?")
     payment_comfort = st.selectbox("¿Qué tan cómodo te sentirías haciendo pagos regulares para la renta de una motocicleta?", ["Muy cómodo", "Algo cómodo", "No muy cómodo", "Incomodo"])
 
     motorcycle_purpose = st.text_area("¿Para qué planeas utilizar la motocicleta principalmente?")
     estimated_usage = st.number_input("¿Cuántas horas al día planeas utilizar la motocicleta?", min_value=0, max_value=24)
-    distance_traveled = st.number_input("¿Cuál es la distancia promedio que planeas recorrer diariamente con la motocicleta? (en km)", min_value=0)
 
     stress_management = st.text_area("¿Cómo manejas el estrés cuando las cosas no salen como lo planeaste?")
     responsibility = st.text_area("¿Cómo te aseguras de cumplir con tus compromisos financieros y laborales?")
@@ -121,7 +119,6 @@ def main():
 
     expectations = st.text_area("¿Qué esperas obtener del programa de alquiler de motocicletas?")
     concerns = st.text_area("¿Tienes alguna preocupación sobre el proceso de alquiler de una motocicleta?")
-    suggestions = st.text_area("¿Tienes alguna sugerencia sobre cómo podríamos mejorar nuestro programa de alquiler?")
 
     if st.button("Submit", use_container_width=True):
         # Collect all answers
@@ -154,12 +151,10 @@ def main():
             "business_experience": business_experience,
             "business_type": business_type,
             "current_transportation": current_transportation,
-            "income_level": income_level,
             "financial_management": financial_management,
             "payment_comfort": payment_comfort,
             "motorcycle_purpose": motorcycle_purpose,
             "estimated_usage": estimated_usage,
-            "distance_traveled": distance_traveled,
             "stress_management": stress_management,
             "responsibility": responsibility,
             "previous_experience": previous_experience,
@@ -168,7 +163,6 @@ def main():
             "future_plans": future_plans,
             "expectations": expectations,
             "concerns": concerns,
-            "suggestions": suggestions
         }
 
         # Perform sentiment analysis on selected answers
