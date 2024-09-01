@@ -94,6 +94,18 @@ def generate_conclusion(sentiments, nombre, apellido, score):
         eligibility = "There was an error processing the eligibility. Please review the inputs."
 
     return f"{nombre} {apellido}: {eligibility}"
+
+def generate_conclusion_with_openai(conversation):
+    """Generate a conclusion using OpenAI based on the full conversation data."""
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are an assistant helping to assess eligibility for a financial plan."},
+            {"role": "user", "content": f"Here is the conversation data: {conversation}. Please provide an eligibility conclusion."}
+        ]
+    )
+    conclusion = response['choices'][0]['message']['content']
+    return conclusion
     
 def send_data_to_make(data):
     if not webhook_url:
