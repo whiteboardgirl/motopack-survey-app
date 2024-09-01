@@ -77,10 +77,10 @@ def generate_conclusion(sentiments, nombre, apellido, score):
 
     if score < 50:
         eligibility = "Based on your responses, there may be some concerns regarding eligibility for financial assistance."
-    elif score >= 50:  # High score, likely eligible
+    elif score > 75:  # High score, likely eligible
         sentiment_conclusion = "The responses are generally positive, and you are highly recommended for the financial plan."
         eligibility = f"{sentiment_conclusion} Your eligibility score is {score}."
-    else:  # Score between 50 and 99
+    else:  # Score between 50 and 75
         if positive > negative + 0.05:  # Lower buffer to favor positive sentiment
             sentiment_conclusion = "The responses are positive overall. You are likely a good fit for the financial plan."
         elif negative > positive + 0.15:
@@ -94,7 +94,7 @@ def generate_conclusion(sentiments, nombre, apellido, score):
         eligibility = "There was an error processing the eligibility. Please review the inputs."
 
     return f"{nombre} {apellido}: {eligibility}"
-
+    
 def send_data_to_make(data):
     if not webhook_url:
         st.error("Webhook URL is not set. Please check your environment variables.")
