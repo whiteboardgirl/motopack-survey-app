@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 import openai
-from googletrans import Translator
+from googletrans import Translator, LANGUAGES
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import requests
 import nltk
@@ -18,7 +18,13 @@ translator = Translator()
 
 # Initialize Sentiment Analyzer (for Spanish)
 def analyze_sentiment(text):
-    translated_text = translator.translate(text, dest='en').text
+    try:
+        # Attempt translation
+        translated_text = translator.translate(text, dest='en').text
+    except Exception as e:
+        st.error("Error in translation service: Using original text for sentiment analysis.")
+        translated_text = text  # Fallback to the original text if translation fails
+    
     sentiment_analyzer = SentimentIntensityAnalyzer()
     return sentiment_analyzer.polarity_scores(str(translated_text))
 
