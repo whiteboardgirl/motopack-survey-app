@@ -86,7 +86,7 @@ def main():
     licencia_conduccion = st.selectbox("¿Tienes licencia de Conducción? *", ["No", "Sí, tengo licencia de otro país", "Sí, tengo licencia venezolana", "Sí, tengo licencia colombiana"])
     personas_dependientes = st.selectbox("¿Cuántas personas dependen económicamente de ti? *", ["0", "1", "2", "3", "Más de 3"])
     nivel_escolaridad = st.selectbox("Nivel de Escolaridad", ["Sin escolaridad", "Primaria", "Técnico / Tecnólogo", "Secundaria (Bachillerato)", "Universitaria"])
-    prestamos_actuales = st.selectbox("¿Tienes algún préstamo o crédito actualmente? *", ["No tengo", "Sí, con un familiar o amigo", "Sí, con una entidad bancaria o financiera", "Sí, con un préstamo informal o "gota a gota","])
+    prestamos_actuales = st.selectbox("¿Tienes algún préstamo o crédito actualmente? *", ["No tengo", "Sí, con un familiar o amigo", "Sí, con una entidad bancaria o financiera", "Sí, con un préstamo informal o "gota a gota"",])
     codeudor = st.selectbox("¿Tienes un Co-Deudor(a) Colombiano(a)?", ["Sí", "No"])
     rappitendero = st.selectbox("¿Eres un Rappitendero?", ["Sí", "No"])
     ingresos_mensuales = st.selectbox("¿Cuáles son tus ingresos mensuales actuales? *", ["$0 a $500.000", "$500.000 a $1.000.000", "$1.000.000 a $1.500.000", "$1.500.000 a $2.000.000", "Más de $2.000.000"])
