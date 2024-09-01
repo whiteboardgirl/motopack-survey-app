@@ -59,17 +59,20 @@ def generate_conclusion(sentiments, nombre, apellido, score):
     positive = sum(sent['pos'] for sent in sentiments)
     negative = sum(sent['neg'] for sent in sentiments)
 
-    if score < 20:
-        eligibility = "Basado en tus respuestas, es posible que haya algunas preocupaciones con respecto a la elegibilidad para el plan de financiamiento."
+ # Adjust thresholds or add conditions for more balanced conclusions
+    if score < 0:
+        eligibility = "Based on your responses, there may be some concerns regarding eligibility for financial assistance."
+    elif score >= 30:  # Adjust this threshold as needed
+        sentiment_conclusion = "The responses are generally positive, and the applicant is recommended for the financial plan."
     else:
-        if positive > negative:
-            sentiment_conclusion = "Resultado Positivo: Se recomienda a esta persona para el plan de financiamiento."
-        elif negative > positive:
-            sentiment_conclusion = "Resultado Negativo: No se recomienda a esta persona para el plan de financiamiento."
+        if positive > negative + 0.1:  # Add a small buffer to account for minor negatives
+            sentiment_conclusion = "The responses are positive overall. The applicant is likely a good fit for the financial plan."
+        elif negative > positive + 0.2:
+            sentiment_conclusion = "There are concerns based on the responses. Further review may be necessary."
         else:
-            sentiment_conclusion = "Resultado Neutro. Se puede continuar el proceso con esta persona para el plan de financimiento."
+            sentiment_conclusion = "The responses are balanced. Additional information may be needed."
 
-        eligibility = f"{sentiment_conclusion} Tu puntaje de elegibilidad es {score}."
+        eligibility = f"{sentiment_conclusion} Your eligibility score is {score}."
 
     return f"{nombre} {apellido}: {eligibility}"
 
