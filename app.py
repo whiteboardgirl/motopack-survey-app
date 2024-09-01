@@ -27,61 +27,57 @@ def analyze_sentiment(text):
     return sentiment_analyzer.polarity_scores(str(translated_text))
 
 def calculate_score(form_data):
-    """Calculate a score based on the applicant's responses."""
+    """Calculate a base score based on the applicant's form responses."""
     score = 10  # Starting with a positive baseline
 
     # Scoring for driving license
     if form_data['licencia_conduccion'] == 'Sí':
-        score += 30  # Increase positive weight
+        score += 20  # Reduce positive weight
     elif form_data['licencia_conduccion'] == 'No':
-        score -= 25  # Reduce negative weight
+        score -= 15  # Reduce negative weight
 
     # Scoring for current loans
     if form_data['prestamos_actuales'] == 'No':
-        score += 30
+        score += 20  # Reduce positive weight
     elif form_data['prestamos_actuales'] == 'Sí':
         score -= 10  # Reduce penalty
 
     # Scoring for co-debtor
     if form_data['codeudor'] == 'Sí':
-        score += 30
+        score += 20  # Reduce positive weight
     elif form_data['codeudor'] == 'No':
         score -= 10  # Reduce penalty
 
     return score
 
 def integrate_llm_sentiment(score, sentiments):
-    """Adjusts the score based on LLM sentiment analysis of applicant's responses."""
+    """Adjust the score based on LLM sentiment analysis of applicant's responses."""
     positive = sum(sent['pos'] for sent in sentiments)
     negative = sum(sent['neg'] for sent in sentiments)
     
-    # Adjust score based on sentiment analysis
-    score += int(positive * 10)  # Increase score based on positive sentiment
-    score -= int(negative * 10)  # Decrease score based on negative sentiment
+    # Increase the impact of LLM sentiment analysis
+    sentiment_weight = 2  # Increase this value to give more weight to LLM sentiment
+
+    score += int(positive * 30 * sentiment_weight)  # Increase score based on positive sentiment
+    score -= int(negative * 30 * sentiment_weight)  # Decrease score based on negative sentiment
     
     return score
 
 def generate_conclusion(sentiments, nombre, apellido, score):
-    positive = sum(sent['pos'] for sent in sentiments)
-    negative = sum(sent['neg'] for sent in sentiments)
+    # Adjust score with sentiment analysis
+    score = integrate_llm_sentiment(score, sentiments)
 
     if score < 50:
         eligibility = "Based on your responses, there may be some concerns regarding eligibility for financial assistance."
     elif score >= 50:  # High score, likely eligible
         sentiment_conclusion = "The responses are generally positive, and you are highly recommended for the financial plan."
     else:  # Score between 50 and 99
-        if positive > negative + 0.05:  # Lower buffer to favor positive sentiment
+        if sum(sent['pos'] for sent in sentiments) > sum(sent['neg'] for sent in sentiments) + 0.05:
             sentiment_conclusion = "The responses are positive overall. You are likely a good fit for the financial plan."
-        elif negative > positive + 0.15:
-            sentiment_conclusion = "There are some concerns based on the responses. Further review may be necessary."
         else:
-            sentiment_conclusion = "The responses are balanced. Additional information may be needed."
+            sentiment_conclusion = "There are some concerns based on the responses. Further review may be necessary."
 
         eligibility = f"{sentiment_conclusion} Your eligibility score is {score}."
-
-    # Ensuring eligibility is always defined before the return statement
-    if 'eligibility' not in locals():
-        eligibility = "There was an error processing the eligibility. Please review the inputs."
 
     return f"{nombre} {apellido}: {eligibility}"
 
