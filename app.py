@@ -61,12 +61,36 @@ def main():
     )
 
     # Form fields
-    nombre = st.text_input("Nombre:")
-    apellido = st.text_input("Apellido:")
-    email = st.text_input("Correo Electrónico:")
-    telefono = st.text_input("Número de Teléfono:")
-    edad = st.number_input("Edad:", min_value=18, max_value=100)
+    nombre = st.text_input("Nombre(s) *")
+    apellido = st.text_input("Apellido(s) *")
+    fecha_nacimiento = st.date_input("Fecha de nacimiento *", format="DD/MM/YYYY")
+    tipo_documento = st.selectbox("Tipo de Documento de Identidad *", ["Cédula de Ciudadanía", "Cédula de Extranjería", "Pasaporte"])
+    numero_documento = st.text_input("Número de Documento de Identidad *")
+    sexo = st.selectbox("Sexo", ["Masculino", "Femenino", "Otro"])
+    celular = st.text_input("Celular (con Whatsapp) *")
+    ciudad_residencia = st.text_input("Ciudad de Residencia *")
+    direccion_residencia = st.text_input("Dirección de Residencia *")
+    barrio_residencia = st.text_input("Barrio de Residencia")
+    correo_electronico = st.text_input("Correo Electrónico *")
+    fuente_conocimiento = st.selectbox("¿Cómo supiste acerca de Motopack? *", ["Publicidad", "Redes Sociales", "Amigos o Familiares", "Otro"])
+    otro_medio = st.text_input("Otro medio") if fuente_conocimiento == "Otro" else ""
+    referente = st.text_input("Referente")
+    alquilar_comprar = st.selectbox("¿Quieres alquilar o comprar moto? *", ["Alquilar", "Comprar"])
+    licencia_conduccion = st.selectbox("¿Tienes licencia de Conducción? *", ["Sí", "No"])
+    personas_dependientes = st.number_input("¿Cuántas personas dependen económicamente de ti? *", min_value=0, max_value=10)
+    nivel_escolaridad = st.selectbox("Nivel de Escolaridad", ["Primaria", "Secundaria", "Técnico", "Tecnólogo", "Universitario", "Postgrado"])
+    prestamos_actuales = st.selectbox("¿Tienes algún préstamo o crédito actualmente? *", ["Sí", "No"])
+    codeudor = st.selectbox("¿Tienes un Co-Deudor(a) Colombiano(a)?", ["Sí", "No"])
+    rappitendero = st.selectbox("¿Eres un Rappitendero?", ["Sí", "No"])
+    ingresos_mensuales = st.number_input("¿Cuáles son tus ingresos mensuales actuales? *", min_value=0)
+    movilizacion_actual = st.text_area("¿Actualmente cómo te movilizas? *")
+    acepto_politica = st.checkbox("Acepto la política de tratamiento de datos de Motopack SAS BIC. * Ver acá: https://www.motopack.co/politica-de-tratamiento-de-datos")
 
+    if not acepto_politica:
+        st.error("Debes aceptar la política de tratamiento de datos para continuar.")
+        return
+
+    # LLM conversation questions
     business_description = st.text_area("¿Puedes contarme un poco sobre tu negocio y cómo comenzaste?")
     business_experience = st.number_input("¿Cuánto tiempo has estado en tu negocio actual? (en años)", min_value=0, max_value=50)
     business_type = st.selectbox("¿Cuál es el tipo principal de negocio que manejas?", ["Entregas", "Transporte personal", "Otro"])
@@ -97,9 +121,28 @@ def main():
         form_data = {
             "nombre": nombre,
             "apellido": apellido,
-            "email": email,
-            "telefono": telefono,
-            "edad": edad,
+            "fecha_nacimiento": fecha_nacimiento.strftime("%d/%m/%Y"),
+            "tipo_documento": tipo_documento,
+            "numero_documento": numero_documento,
+            "sexo": sexo,
+            "celular": celular,
+            "ciudad_residencia": ciudad_residencia,
+            "direccion_residencia": direccion_residencia,
+            "barrio_residencia": barrio_residencia,
+            "correo_electronico": correo_electronico,
+            "fuente_conocimiento": fuente_conocimiento,
+            "otro_medio": otro_medio,
+            "referente": referente,
+            "alquilar_comprar": alquilar_comprar,
+            "licencia_conduccion": licencia_conduccion,
+            "personas_dependientes": personas_dependientes,
+            "nivel_escolaridad": nivel_escolaridad,
+            "prestamos_actuales": prestamos_actuales,
+            "codeudor": codeudor,
+            "rappitendero": rappitendero,
+            "ingresos_mensuales": ingresos_mensuales,
+            "movilizacion_actual": movilizacion_actual,
+            "acepto_politica": acepto_politica,
             "business_description": business_description,
             "business_experience": business_experience,
             "business_type": business_type,
