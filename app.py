@@ -224,6 +224,12 @@ def main():
             "concerns": concerns,
         }
 
+          # Aggregate the conversation data
+        conversation = ""
+        for key, answer in form_data.items():
+            if isinstance(answer, str):
+                conversation += f"{key}: {answer}\n"
+                
         # Perform sentiment analysis on selected answers
         sentiments = []
         for key, answer in form_data.items():
@@ -231,12 +237,13 @@ def main():
                 sentiment = analyze_sentiment(answer)
                 sentiments.append(sentiment)
 
-        
-            score = calculate_score(form_data)
-            conclusion = generate_conclusion(sentiments, nombre, apellido, score)
+        # Calculate score based on form data
+        score = calculate_score(form_data)
 
+        # Generate conclusion using OpenAI
+        conclusion = generate_conclusion_with_openai(conversation)
 
-        # Prepare the data to send
+    # Prepare the data to send
         data_to_send = {
             "form_data": form_data,
             "conclusion": conclusion
@@ -247,6 +254,6 @@ def main():
 
         # Display a thank you message
         st.success("Gracias por completar el formulario. ¡Tu información ha sido enviada!")
-
+        
 if __name__ == "__main__":
     main()
