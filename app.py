@@ -32,21 +32,23 @@ def calculate_score(form_data):
 
     # Scoring for driving license
     if form_data['licencia_conduccion'] == 'Sí':
-        score += 25  # Increase positive weight
+        score += 25  # High positive weight
     elif form_data['licencia_conduccion'] == 'No':
-        score -= 25  # Reduce negative weight
+        score -= 10  # Reduced penalty
 
     # Scoring for current loans
     if form_data['prestamos_actuales'] == 'No':
         score += 20
     elif form_data['prestamos_actuales'] == 'Sí':
-        score -= 10  # Reduce penalty
+        score -= 10  # Reduced penalty
 
     # Scoring for co-debtor
     if form_data['codeudor'] == 'Sí':
         score += 20
     elif form_data['codeudor'] == 'No':
-        score -= 10  # Reduce penalty
+        score -= 10  # Reduced penalty
+
+    # Add more conditions as needed...
 
     return score
 
@@ -54,19 +56,18 @@ def generate_conclusion(sentiments, nombre, apellido, score):
     positive = sum(sent['pos'] for sent in sentiments)
     negative = sum(sent['neg'] for sent in sentiments)
 
-    if score < 50:
-        eligibility = "Based on your responses, there may be some concerns regarding eligibility for financial assistance."
-    elif score >= 100:  # High score, likely eligible
-        sentiment_conclusion = "The responses are generally positive, and you are highly recommended for the financial plan."
-    else:  # Score between 50 and 99
-        if positive > negative + 0.05:  # Lower buffer to favor positive sentiment
-            sentiment_conclusion = "The responses are positive overall. You are likely a good fit for the financial plan."
-        elif negative > positive + 0.15:
-            sentiment_conclusion = "There are some concerns based on the responses. Further review may be necessary."
-        else:
-            sentiment_conclusion = "The responses are balanced. Additional information may be needed."
+    print(f"Score: {score}, Positive Sentiment: {positive}, Negative Sentiment: {negative}")
 
-        eligibility = f"{sentiment_conclusion} Your eligibility score is {score}."
+    # Directly link high score to a positive outcome for testing
+    if score >= 75:
+        eligibility = "You are recommended for the financial plan based on your positive responses."
+    elif score < 50:
+        eligibility = "There may be concerns regarding eligibility based on your responses."
+    else:
+        if positive > negative:
+            eligibility = "Your responses are generally positive, and you are likely a good fit for the financial plan."
+        else:
+            eligibility = "There are concerns based on your responses. Further review may be needed."
 
     return f"{nombre} {apellido}: {eligibility}"
 
