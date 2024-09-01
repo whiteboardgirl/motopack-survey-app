@@ -50,12 +50,14 @@ def send_data_to_make(data):
 def main():
     st.title("Registro para Adquirir una Moto")
     st.write(
-        "¡Hola! Bienvenido/a a Motopack. Llenar este registro te tomará 5 minutos.\n\n"
-        "Te recomendamos que antes de registrarte acá, vayas a la sección de "
-        "[CÓMO FUNCIONA](https://www.motopack.co/servicio).\n\n"
-        "Si cumples los requisitos y te gusta el modelo, ¡Adelante!"
+        "¡Hola! Bienvenido/a a Motopack. Queremos conocerte un poco mejor\n\n"
+        "Responde las preguntas lo mejor posible, se tu mismo!\n\n"
+        "Gracias por tus respuestas!"
     )
-    
+      # New fields for first and last name
+    nombre = st.text_input("Nombre:")
+    apellido = st.text_input("Apellido:")
+
     form_data = {}
     questions = [
         "¿Puedes contarme un poco sobre tu negocio y cómo comenzaste?",
