@@ -35,13 +35,13 @@ def calculate_score(form_data):
     if form_data['licencia_conduccion'] == 'Sí':
         score += 10
     elif form_data['licencia_conduccion'] == 'No':
-        score -= 20
+        score -= 50
 
     # Scoring for current loans
     if form_data['prestamos_actuales'] == 'No':
         score += 15
     elif form_data['prestamos_actuales'] == 'Sí':
-        score -= 20
+        score -= 25
 
     # Scoring for co-debtor
     if form_data['codeudor'] == 'Sí':
@@ -60,9 +60,9 @@ def generate_conclusion(sentiments, nombre, apellido, score):
     negative = sum(sent['neg'] for sent in sentiments)
 
  # Adjust thresholds or add conditions for more balanced conclusions
-    if score < 0:
+    if score < 50:
         eligibility = "Based on your responses, there may be some concerns regarding eligibility for financial assistance."
-    elif score >= 30:  # Adjust this threshold as needed
+    elif score >= 100:  # Adjust this threshold as needed
         sentiment_conclusion = "The responses are generally positive, and the applicant is recommended for the financial plan."
     else:
         if positive > negative + 0.1:  # Add a small buffer to account for minor negatives
