@@ -65,9 +65,9 @@ def generate_conclusion(sentiments, nombre, apellido, score):
     elif score >= 35:  # Adjust this threshold as needed
         sentiment_conclusion = "The responses are generally positive, and the applicant is recommended for the financial plan."
     else:
-        if positive > negative + 0.2:  # Add a small buffer to account for minor negatives
+        if positive > negative + 35:  # Add a small buffer to account for minor negatives
             sentiment_conclusion = "The responses are positive overall. The applicant is likely a good fit for the financial plan."
-        elif negative > positive - 0.5:
+        elif negative > positive - 35:
             sentiment_conclusion = "There are concerns based on the responses. Further review may be necessary."
         else:
             sentiment_conclusion = "The responses are balanced. Additional information may be needed."
