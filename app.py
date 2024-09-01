@@ -72,7 +72,7 @@ def generate_conclusion(sentiments, nombre, apellido, score):
         eligibility = f"{sentiment_conclusion} Your eligibility score is {score}."
 
     return f"{nombre} {apellido}: {eligibility}"
-sentiments, nombre, apellido):
+sentiments, nombre, apellido, score):
     positive = sum(sent['pos'] for sent in sentiments)
     negative = sum(sent['neg'] for sent in sentiments)
     
