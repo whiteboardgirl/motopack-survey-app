@@ -9,8 +9,9 @@ import nltk
 # Download the VADER lexicon for sentiment analysis
 nltk.download('vader_lexicon')
 
-# Load environment variables directly from the Streamlit Cloud environment
+# Load secrets from Streamlit Cloud
 openai.api_key = os.getenv('OPENAI_API_KEY')
+webhook_url = os.getenv('MAKE_WEBHOOK_URL')
 
 # Initialize the Translator
 translator = Translator()
@@ -21,16 +22,24 @@ def analyze_sentiment(text):
     sentiment_analyzer = SentimentIntensityAnalyzer()
     return sentiment_analyzer.polarity_scores(str(translated_text))
 
+def generate_conclusion(sentiments):
+    """Generate a simple conclusion based on the sentiment scores."""
+    positive = sum(sent['pos'] for sent in sentiments)
+    negative = sum(sent['neg'] for sent in sentiments)
+    
+    if positive > negative:
+        return "Overall, the responses are positive, indicating a generally optimistic outlook."
+    elif negative > positive:
+        return "Overall, the responses are negative, indicating some concerns or difficulties."
+    else:
+        return "The responses are neutral, suggesting a balanced perspective."
+
 def send_data_to_make(data):
     """Send the processed survey data to Make.com via a webhook."""
-    webhook_url = os.getenv('MAKE_WEBHOOK_URL')
-    
-    # Check if the webhook URL is set
     if not webhook_url:
         st.error("Webhook URL is not set. Please check your environment variables.")
         return
 
-    # Send the POST request to Make.com
     response = requests.post(webhook_url, json=data)
     
     if response.status_code == 200:
@@ -57,6 +66,7 @@ def main():
         "¿Qué tan cómodo te sentirías haciendo pagos regulares?"
     ]
     
+    sentiments = []
     for question in questions:
         form_data[question] = st.text_area(question)
 
@@ -67,10 +77,24 @@ def main():
         for question, answer in form_data.items():
             sentiment = analyze_sentiment(answer)
             sentiment_summary = f"Neg: {sentiment['neg']}, Neu: {sentiment['neu']}, Pos: {sentiment['pos']}, Comp: {sentiment['compound']}"
-            results.append({"question": question, "answer": answer, "sentiment": sentiment_summary})
+            sentiments.append(sentiment)
+            results.append({
+                "question": question, 
+                "answer": answer, 
+                "sentiment_summary": sentiment_summary
+            })
+
+        conclusion = generate_conclusion(sentiments)
+
+        # Prepare the data to send
+        data_to_send = {
+            "conversation": conversation,
+            "results": results,
+            "conclusion": conclusion
+        }
 
         # Send data to Make.com
-        send_data_to_make({"conversation": conversation, "results": results})
+        send_data_to_make(data_to_send)
 
 if __name__ == "__main__":
     main()
