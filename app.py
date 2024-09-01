@@ -31,19 +31,21 @@ def calculate_score(form_data):
     """Calculate a score based on the applicant's responses."""
     score = 0
 
-    # Example scoring logic - adjust based on your needs
+    # Scoring for driving license
     if form_data['licencia_conduccion'] == 'Sí':
         score += 10
 
+    # Scoring for current loans
     if form_data['prestamos_actuales'] == 'No':
         score += 15
     elif form_data['prestamos_actuales'] == 'Sí':
-        score -= 10
+        score -= 20
 
+    # Scoring for co-debtor
     if form_data['codeudor'] == 'Sí':
         score += 10
     elif form_data['codeudor'] == 'No':
-        score -= 5
+        score -= 25
 
 
     # Add more conditions based on your form fields
