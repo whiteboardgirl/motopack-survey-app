@@ -45,9 +45,9 @@ def calculate_score(form_data):
     elif form_data['codeudor'] == 'No':
         score -= 5
 
-    if form_data['ingresos_mensuales'] >= 1000000:  # Example threshold
+    if int(form_data['ingresos_mensuales']) >= 1000000:  # Example threshold
         score += 20
-    elif form_data['ingresos_mensuales'] < 500000:
+    elif int(form_data['ingresos_mensuales']) < 500000:
         score -= 15
 
     # Add more conditions based on your form fields
