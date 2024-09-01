@@ -45,10 +45,6 @@ def calculate_score(form_data):
     elif form_data['codeudor'] == 'No':
         score -= 5
 
-    if int(form_data['ingresos_mensuales']) >= 1000000:  # Example threshold
-        score += 20
-    elif int(form_data['ingresos_mensuales']) < 500000:
-        score -= 15
 
     # Add more conditions based on your form fields
     # ...
@@ -110,14 +106,7 @@ def main():
     nombre = st.text_input("Nombre(s) *")
     apellido = st.text_input("Apellido(s) *")
     fecha_nacimiento = st.date_input("Fecha de nacimiento *", format="DD/MM/YYYY")
-    tipo_documento = st.selectbox("Tipo de Documento de Identidad *", [
-        "Indocumentado", 
-        "Cédula de Ciudadania Venezolana", 
-        "Cédula de Extranjeria", 
-        "Pasaporte Legal Vigente", 
-        "PEP", 
-        "PPT", 
-        "Cédula de Ciudadania Colombiana" ])
+    tipo_documento = st.selectbox("Tipo de Documento de Identidad *", ["Indocumentado", "Cédula de Ciudadania Venezolana", "Cédula de Extranjeria", "Pasaporte Legal Vigente", "PEP", "PPT", "Cédula de Ciudadania Colombiana" ])
     numero_documento = st.text_input("Número de Documento de Identidad *")
     sexo = st.selectbox("Sexo", ["Masculino", "Femenino"])
     celular = st.text_input("Celular (con Whatsapp) *")
