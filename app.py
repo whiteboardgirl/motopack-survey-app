@@ -34,6 +34,8 @@ def calculate_score(form_data):
     # Scoring for driving license
     if form_data['licencia_conduccion'] == 'Sí':
         score += 10
+    elif form_data['licencia_conduccion'] == 'No':
+        score -= 20
 
     # Scoring for current loans
     if form_data['prestamos_actuales'] == 'No':
@@ -57,7 +59,7 @@ def generate_conclusion(sentiments, nombre, apellido, score):
     positive = sum(sent['pos'] for sent in sentiments)
     negative = sum(sent['neg'] for sent in sentiments)
 
-    if score < 0:
+    if score < 20:
         eligibility = "Basado en tus respuestas, es posible que haya algunas preocupaciones con respecto a la elegibilidad para el plan de financiamiento."
     else:
         if positive > negative:
