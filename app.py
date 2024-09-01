@@ -28,7 +28,7 @@ def analyze_sentiment(text):
 
 def calculate_score(form_data):
     """Calculate a score based on the applicant's responses."""
-    score = 0
+    score = 10  # Starting with a positive baseline
 
     # Scoring for driving license
     if form_data['licencia_conduccion'] == 'Sí':
@@ -50,9 +50,20 @@ def calculate_score(form_data):
 
     return score
 
-def generate_conclusion(sentiments, nombre, apellido, score):
+def integrate_llm_sentiment(score, sentiments):
+    """Adjusts the score based on LLM sentiment analysis of applicant's responses."""
     positive = sum(sent['pos'] for sent in sentiments)
     negative = sum(sent['neg'] for sent in sentiments)
+    
+    # Adjust score based on sentiment analysis
+    score += int(positive * 10)  # Increase score based on positive sentiment
+    score -= int(negative * 10)  # Decrease score based on negative sentiment
+    
+    return score
+
+def generate_conclusion(sentiments, nombre, apellido, score):
+    # Adjust score with sentiment analysis
+    score = integrate_llm_sentiment(score, sentiments)
 
     if score < 50:
         eligibility = "Based on your responses, there may be some concerns regarding eligibility for financial assistance."
@@ -61,7 +72,7 @@ def generate_conclusion(sentiments, nombre, apellido, score):
     else:  # Score between 50 and 99
         if positive > negative + 0.05:  # Lower buffer to favor positive sentiment
             sentiment_conclusion = "The responses are positive overall. You are likely a good fit for the financial plan."
-        elif negative > positive - 0.15:
+        elif negative > positive + 0.15:
             sentiment_conclusion = "There are some concerns based on the responses. Further review may be necessary."
         else:
             sentiment_conclusion = "The responses are balanced. Additional information may be needed."
