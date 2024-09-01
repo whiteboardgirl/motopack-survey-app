@@ -32,24 +32,21 @@ def calculate_score(form_data):
 
     # Scoring for driving license
     if form_data['licencia_conduccion'] == 'Sí':
-        score += 10
+        score += 25  # Increase positive weight
     elif form_data['licencia_conduccion'] == 'No':
-        score -= 50
+        score -= 25  # Reduce negative weight
 
     # Scoring for current loans
     if form_data['prestamos_actuales'] == 'No':
-        score += 15
+        score += 20
     elif form_data['prestamos_actuales'] == 'Sí':
-        score -= 25
+        score -= 10  # Reduce penalty
 
     # Scoring for co-debtor
     if form_data['codeudor'] == 'Sí':
-        score += 10
+        score += 20
     elif form_data['codeudor'] == 'No':
-        score -= 25
-
-    # Add more conditions based on your form fields
-    # ...
+        score -= 10  # Reduce penalty
 
     return score
 
@@ -57,16 +54,15 @@ def generate_conclusion(sentiments, nombre, apellido, score):
     positive = sum(sent['pos'] for sent in sentiments)
     negative = sum(sent['neg'] for sent in sentiments)
 
-    # Adjust thresholds or add conditions for more balanced conclusions
-    if score < 35:
+    if score < 50:
         eligibility = "Based on your responses, there may be some concerns regarding eligibility for financial assistance."
-    elif score >= 100:  # Higher threshold to ensure eligibility
-        sentiment_conclusion = "The responses are generally positive, and you are recommended for the financial plan."
-    else:  # Score is between 35 and 99
-        if positive > negative + 0.1:  # Use a small buffer to compare sentiment
+    elif score >= 100:  # High score, likely eligible
+        sentiment_conclusion = "The responses are generally positive, and you are highly recommended for the financial plan."
+    else:  # Score between 50 and 99
+        if positive > negative + 0.05:  # Lower buffer to favor positive sentiment
             sentiment_conclusion = "The responses are positive overall. You are likely a good fit for the financial plan."
-        elif negative > positive + 0.2:
-            sentiment_conclusion = "There are concerns based on the responses. Further review may be necessary."
+        elif negative > positive + 0.15:
+            sentiment_conclusion = "There are some concerns based on the responses. Further review may be necessary."
         else:
             sentiment_conclusion = "The responses are balanced. Additional information may be needed."
 
